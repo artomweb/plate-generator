@@ -1,0 +1,30 @@
+html,
+body {
+    background-color: black;
+    margin: 0;
+    padding: 0;
+}
+
+canvas {
+    display: block;
+    position: relative;
+    /* border: 2px solid black; */
+    max-width: 600px !important;
+    height: auto !important;
+}
+
+#sketch {
+    min-height: 100vh;
+    /*vertical center*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-direction: column;
+}
+
+@media (max-width: 485px) {
+    canvas {
+        max-width: 95% !important;
+    }
+}
