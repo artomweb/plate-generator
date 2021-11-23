@@ -22,14 +22,18 @@ function setup() {
 }
 
 function draw() {
-    background("#f7f7f7");
+    // background("#457b9d");
+    background(1, 0);
 
-    for (let i = 1; i < 4; i++) {
-        let x = width / 2;
-        let y = (height / 4) * i;
-        tempPlate = new generatePlate(x, y);
-        plates.push(tempPlate);
-    }
+    // for (let i = 1; i < 4; i++) {
+    //     let x = width / 2;
+    //     let y = (height / 4) * i;
+    //     tempPlate = new generatePlate(x, y);
+    //     plates.push(tempPlate);
+    // }
+
+    tempPlate = new generatePlate(width / 2, height / 2);
+    plates.push(tempPlate);
 
     for (let i = 0; i < 3; i++) {
         plates[i].show();
@@ -78,7 +82,7 @@ class generatePlate {
         fill("#333745");
         rect(this.pos.x + 5, this.pos.y + 5, this.plateWidth, this.plateHeight);
 
-        fill("#FFEA00");
+        fill("#edf6f9");
         rect(this.pos.x, this.pos.y, this.plateWidth, this.plateHeight);
 
         textFont(myFont);
