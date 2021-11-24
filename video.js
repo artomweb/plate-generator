@@ -1,25 +1,30 @@
 let car;
 let tables = [];
 let pointsCsv = [];
+let myFont;
 
 function preload() {
     let csvFiles = ["points/point-3.csv", "points/point-2.csv", "points/point-1.csv", "points/point-0.csv"];
-
+    myFont = loadFont("CharlesWright-Bold.ttf");
     for (let file of csvFiles) {
         tables.push(loadTable(file, "csv"));
     }
 }
 
 let plate;
+let plateGraphic;
+
+let realSF = 520 / 111;
+let plateHeight = 100;
 
 function setup() {
     car = createVideo("media/pexels-cottonbro-7508263.mp4");
     canvas = createCanvas(1000, 527);
     canvas.parent("sketch");
-    plate = createGraphics(100, 100);
     // console.log(car);
     // car.loop();
     car.hide();
+    car.speed(2);
     // console.log(pointsCsv);
 
     for (let table of tables) {
@@ -32,44 +37,65 @@ function setup() {
     }
     console.log(pointsCsv);
 
+    plate = new generatePlate(0, 0, plateHeight, realSF);
+    plateGraphic = createGraphics(width, height);
+    // plateGraphic = createGraphics(width, height);
+
     // let srcCorners = [450, 213.5, 550, 313.5, 550, 313.5, 450, 313.5];
 }
 
 function draw() {
     background("white");
-
     let currFrame = floor(car.time() * 25);
-    if (currFrame > 300) return car.pause();
     image(car, 0, 0, width, height);
+    if (currFrame > 300) {
+        // car.pause();
+        // car = createVideo("media/pexels-cottonbro-7508263.mp4");
+    }
     // console.log(currFrame);
 
-    for (let i = 0; i < pointsCsv.length; i++) {
-        let thisP = pointsCsv[i][currFrame];
-        // console.log(thisP);
-        if (i == 3) {
-            fill("red");
-        } else {
-            fill("blue");
-        }
-        circle(thisP.x, thisP.y, 10);
-    }
+    // beginShape();
 
-    let srcCorners = [450, 213.5, 550, 313.5, 550, 313.5, 450, 313.5];
-    let dstCorners = [pointsCsv[0][0].x, pointsCsv[0][0].y, pointsCsv[1][0].x, pointsCsv[1][0].y, pointsCsv[2][0].x, pointsCsv[2][0].y, pointsCsv[3][0].x, pointsCsv[3][0].y];
+    // for (let i = 0; i < pointsCsv.length; i++) {
+    //     let thisP = pointsCsv[i][currFrame];
+    //     // console.log(thisP);
+    //     // if (i == 3) {
+    //     // fill("red");
+    //     // } else {
+    //     fill("blue");
+    //     // }
+    //     vertex(thisP.x, thisP.y);
+    //     // circle(thisP.x, thisP.y, 20);
+    // }
+
+    // endShape(CLOSE);
+
+    let srcCorners = [plate.plateWidth, 0, plate.plateWidth, plate.plateHeight, 0, plate.plateHeight];
+    let dstCorners = [pointsCsv[1][currFrame].x, pointsCsv[1][currFrame].y, pointsCsv[2][currFrame].x, pointsCsv[2][currFrame].y, pointsCsv[3][currFrame].x, pointsCsv[3][currFrame].y];
     // console.log(dstCorners);
-    var perspT = PerspT(srcCorners, dstCorners);
-    var mat = perspT.coeffsInv;
+    // var perspT = PerspT(srcCorners, dstCorners);
+    // var mat = perspT.coeffsInv;
+
+    const myHomography = new homography.Homography("affine");
+    myHomography.setReferencePoints(srcCorners, dstCorners);
+
+    // console.log(myHomography._transformMatrix);
+
+    let mat = myHomography._transformMatrix;
+
     // console.log(mat);
 
-    plate.push();
-    plate.applyMatrix(mat[0], mat[1], mat[2], mat[3], mat[4], mat[6]);
-    plate.fill("blue");
-    plate.rectMode(CENTER);
-    plate.rect(0, 0, plate.width, plate.height);
-    image(plate, width / 2, height / 2);
-    plate.pop();
+    // plateGraphic.background("yellow");
+
+    plateGraphic.clear();
+
+    plateGraphic.push();
+    plateGraphic.applyMatrix(mat);
+    plate.show(plateGraphic, myFont);
+    image(plateGraphic, 0, 0);
+    plateGraphic.pop();
 }
 
 function mousePressed() {
-    car.play();
+    car.loop();
 }
