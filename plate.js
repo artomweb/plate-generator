@@ -39,7 +39,10 @@ class generatePlate {
         // ctx.fill("#333745");
         // ctx.rect(this.pos.x + 5, this.pos.y + 5, this.plateWidth, this.plateHeight);
 
-        ctx.fill("#edf6f9");
+        // ctx.fill("#C2B200");
+        let white = color("white");
+        white.setAlpha(175);
+        ctx.fill(white);
         ctx.rect(this.pos.x, this.pos.y, this.plateWidth, this.plateHeight);
 
         ctx.textFont(font);
@@ -48,7 +51,7 @@ class generatePlate {
 
         ctx.push();
 
-        ctx.translate(this.pos.x - 175, this.pos.y - 10);
+        ctx.translate(this.pos.x - 175, this.pos.y - 12);
 
         for (let i = 0; i < this.chars.length; i++) {
             ctx.textAlign(CENTER, CENTER);

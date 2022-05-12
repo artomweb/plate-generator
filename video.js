@@ -5,10 +5,13 @@ let myFont;
 
 function preload() {
     let csvFiles = ["points/point-3.csv", "points/point-2.csv", "points/point-1.csv", "points/point-0.csv"];
+    // let csvFiles = ["points2/point-3.csv", "points2/point-2.csv", "points2/point-1.csv", "points2/point-0.csv"];
     myFont = loadFont("CharlesWright-Bold.ttf");
     for (let file of csvFiles) {
         tables.push(loadTable(file, "csv"));
     }
+    car = createVideo("media/pexels-cottonbro-7508263.mp4");
+    // car = createVideo("media/pexels-kampus-production-8152840.mp4");
 }
 
 let plate;
@@ -18,13 +21,14 @@ let realSF = 520 / 111;
 let plateHeight = 100;
 
 function setup() {
-    car = createVideo("media/pexels-cottonbro-7508263.mp4");
     canvas = createCanvas(1000, 527);
     canvas.parent("sketch");
     // console.log(car);
     // car.loop();
     car.hide();
-    car.speed(2);
+    // car.speed(2);
+    // car.play();
+    // car.pause();
     // console.log(pointsCsv);
 
     for (let table of tables) {
@@ -41,15 +45,19 @@ function setup() {
     plateGraphic = createGraphics(width, height);
     // plateGraphic = createGraphics(width, height);
 
+    // frameRate(3);
     // let srcCorners = [450, 213.5, 550, 313.5, 550, 313.5, 450, 313.5];
 }
 
 function draw() {
     background("white");
-    let currFrame = floor(car.time() * 25);
+    let currFrame = floor(car.time() * 25) + 1;
+    // if (currFrame > 1) currFrame += 1;
+
     image(car, 0, 0, width, height);
     if (currFrame > 300) {
-        // car.pause();
+        car.pause();
+        currFrame = 301;
         // car = createVideo("media/pexels-cottonbro-7508263.mp4");
     }
     // console.log(currFrame);
@@ -97,5 +105,5 @@ function draw() {
 }
 
 function mousePressed() {
-    car.loop();
+    car.play();
 }

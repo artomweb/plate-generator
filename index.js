@@ -12,7 +12,7 @@ function preload() {
 }
 
 function setup() {
-    canvas = createCanvas(800, 500);
+    canvas = createCanvas(468.5, 100);
     canvas.parent("sketch");
     noLoop();
 
@@ -32,16 +32,17 @@ function draw() {
     //     plates.push(tempPlate);
     // }
 
-    tempPlate = new generatePlate(width / 2, height / 2);
-    plates.push(tempPlate);
+    let tempPlate = new generatePlate(width / 2, height / 2);
+    tempPlate.show();
+    // plates.push(tempPlate);
 
-    for (let i = 0; i < 3; i++) {
-        plates[i].show();
-    }
+    // for (let i = 0; i < 1; i++) {
+    //     plates[i].show();
+    // }
 
-    console.log(plates);
+    console.log(tempPlate.chars.join(""));
 
-    // save("plates.png");
+    // save("plate-" + tempPlate.chars.join("") + ".png");
 }
 
 class generatePlate {
@@ -79,8 +80,8 @@ class generatePlate {
 
         rectMode(CENTER);
 
-        fill("#333745");
-        rect(this.pos.x + 5, this.pos.y + 5, this.plateWidth, this.plateHeight);
+        // fill("#333745");
+        // rect(this.pos.x + 5, this.pos.y + 5, this.plateWidth, this.plateHeight);
 
         fill("#edf6f9");
         rect(this.pos.x, this.pos.y, this.plateWidth, this.plateHeight);
