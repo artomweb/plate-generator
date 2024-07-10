@@ -2,6 +2,6 @@
 
 Procedural number plate generation in P5js
 
-## View it [HERE](https://artomweb.com/plate-generator/)
+## View it [HERE](https://plate.artomweb.com)
 
 ![plates](images/plates.png)
